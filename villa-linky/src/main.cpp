@@ -1,21 +1,20 @@
 #include <Arduino.h>
 
+#define AcquisitionSerial board_specific_serial
 #define startFrame 0x02
 #define endFrame 0x03
 
 void blinkFor(int durationMillis);
 
 void setup() {
-    // write your initialization code here
     pinMode(LED_BUILTIN, OUTPUT);
-    Serial.begin(1200);
-
+    AcquisitionSerial.begin(1200);
     delay(1000);
-    blinkFor(100);
-    delay(100);
-    blinkFor(100);
-    delay(100);
-    blinkFor(100);
+
+    for (int i = 0; i < 3; ++i) {
+        blinkFor(100);
+        delay(100);
+    }
 }
 
 void loop() {
@@ -23,13 +22,13 @@ void loop() {
 
     while (charIn != startFrame) {
         // We skip the 8th bit per spec
-        charIn = Serial.read() & 0x7F;
+        charIn = AcquisitionSerial.read() & 0x7F;
     }
 
     // Start of frame capture
     while (charIn != endFrame) {
-        if (Serial.available()) {
-            charIn = Serial.read() & 0x7F;
+        if (AcquisitionSerial.available()) {
+            charIn = AcquisitionSerial.read() & 0x7F;
 
             // TODO Do something with the char
         }
