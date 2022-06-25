@@ -1,11 +1,11 @@
 #include <unity.h>
 #include <Parser.h>
 
-const char line2[] = {0x0A, 'O', 'P', 'T', 'A', 'R', 'I', 'F', 0x09, 'B', 'A', 'S', 'E', 0x09, '0', 0x0D};
-const char line3[] = {0x0A, 'I', 'S', 'O', 'U', 'S', 'C', 0x09, '3', '0', 0x09, '9', 0x0D};
-const char line4[] = {0x0A, 'B', 'A', 'S', 'E', 0x09, '0', '0', '9', '5', '6', '8', '3', '5', '5', 0x09, '4', 0x0D};
-const char line7[] = {0x0A, 'I', 'M', 'A', 'X', 0x09, '0', '9', '0', 0x09, 'H', 0x0D};
-const char line8[] = {0x0A, 'P', 'A', 'P', 'P', 0x09, '0', '0', '3', '4', '0', 0x09, '(', 0x0D};
+const char line2[] = {0x0A, 'O', 'P', 'T', 'A', 'R', 'I', 'F', ' ', 'B', 'A', 'S', 'E', ' ', '0', 0x0D};
+const char line3[] = {0x0A, 'I', 'S', 'O', 'U', 'S', 'C', ' ', '3', '0', ' ', '9', 0x0D};
+const char line4[] = {0x0A, 'B', 'A', 'S', 'E', ' ', '0', '0', '9', '5', '6', '8', '3', '5', '5', ' ', '4', 0x0D};
+const char line7[] = {0x0A, 'I', 'M', 'A', 'X', ' ', '0', '9', '0', ' ', 'H', 0x0D};
+const char line8[] = {0x0A, 'P', 'A', 'P', 'P', ' ', '0', '0', '3', '4', '0', ' ', '(', 0x0D};
 
 void setUp(void) {
     // set stuff up here

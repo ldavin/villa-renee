@@ -7,7 +7,7 @@
 #include "Parser.h"
 
 #define lineStart 0x0A
-#define separator 0x09
+#define separator 0x20
 
 Parser::Parser() {
     reset();
