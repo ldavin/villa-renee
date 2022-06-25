@@ -1,11 +1,17 @@
 #include <unity.h>
 #include <Parser.h>
 
+const char line1[] = {0x0A, 'A', 'D', 'C', 'O', ' ', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', ' ',
+                      'X', 0x0D};
 const char line2[] = {0x0A, 'O', 'P', 'T', 'A', 'R', 'I', 'F', ' ', 'B', 'A', 'S', 'E', ' ', '0', 0x0D};
 const char line3[] = {0x0A, 'I', 'S', 'O', 'U', 'S', 'C', ' ', '3', '0', ' ', '9', 0x0D};
 const char line4[] = {0x0A, 'B', 'A', 'S', 'E', ' ', '0', '0', '9', '5', '6', '8', '3', '5', '5', ' ', '4', 0x0D};
+const char line5[] = {0x0A, 'P', 'T', 'E', 'C', ' ', 'T', 'H', '.', '.', ' ', '$', 0x0D};
+const char line6[] = {0x0A, 'I', 'I', 'N', 'S', 'T', ' ', '0', '0', '1', ' ', 'X', 0x0D};
 const char line7[] = {0x0A, 'I', 'M', 'A', 'X', ' ', '0', '9', '0', ' ', 'H', 0x0D};
 const char line8[] = {0x0A, 'P', 'A', 'P', 'P', ' ', '0', '0', '3', '4', '0', ' ', '(', 0x0D};
+const char line9[] = {0x0A, 'H', 'H', 'P', 'H', 'C', ' ', 'A', ' ', ',', 0x0D};
+const char line10[] = {0x0A, 'M', 'O', 'T', 'D', 'E', 'T', 'A', 'T', ' ', '0', '0', '0', '0', '0', '0', ' ', 'B', 0x0D};
 
 void setUp(void) {
     // set stuff up here
@@ -59,6 +65,9 @@ void parser_saves_apparent_power() {
 
 void parser_saves_both_and_marks_as_available_on_a_full_frame() {
     Parser parser;
+    for (char c: line1) {
+        parser.feed(c);
+    }
     for (char c: line2) {
         parser.feed(c);
     }
@@ -68,10 +77,22 @@ void parser_saves_both_and_marks_as_available_on_a_full_frame() {
     for (char c: line4) {
         parser.feed(c);
     }
+    for (char c: line5) {
+        parser.feed(c);
+    }
+    for (char c: line6) {
+        parser.feed(c);
+    }
     for (char c: line7) {
         parser.feed(c);
     }
     for (char c: line8) {
+        parser.feed(c);
+    }
+    for (char c: line9) {
+        parser.feed(c);
+    }
+    for (char c: line10) {
         parser.feed(c);
     }
 
