@@ -2,6 +2,7 @@
 #include <RHReliableDatagram.h>
 #include <RH_RF69.h>
 #include <Parser.h>
+#include "encryption_key.h"
 
 #define startFrame 0x02
 #define endFrame 0x03
@@ -54,7 +55,7 @@ void setup() {
     radio.init();
     driver.setFrequency(868.0);
     driver.setTxPower(5, true);
-    driver.setEncryptionKey(); // TODO
+    driver.setEncryptionKey(encryptionKey);
     driver.sleep();
 
     disableFlashChip();
