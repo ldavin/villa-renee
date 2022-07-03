@@ -131,7 +131,6 @@ void sendData(unsigned long whReading, unsigned long apparentPower) {
         blinkFor(50);
     } else {
         sendErrorsCount++;
-        Serial.println("Message not received :(");
         for (int i = 0; i < 3; ++i) {
             blinkFor(20);
         }
@@ -164,7 +163,7 @@ void blinkFor(int durationMillis) {
 }
 
 void flushSerial() {
-    while (Serial.available() > 0) {
-        Serial.read();
+    while (AcquisitionSerial.available() > 0) {
+        AcquisitionSerial.read();
     }
 }
