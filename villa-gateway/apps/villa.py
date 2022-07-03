@@ -1,3 +1,4 @@
+import sys
 from threading import Thread
 
 import adafruit_rfm69
@@ -43,24 +44,27 @@ class VillaGateway(hass.Hass):
         radio.node = 1
 
         while getattr(self.t, 'do_run', True):
-            packet = radio.receive(with_ack=True, with_header=True, keep_listening=True, timeout=1.0)
-            if packet is not None:
-                rssi = radio.last_rssi
-                sender = int(packet[1])
-                packet_text = packet[4:].replace(b'\x00', b'').decode('ascii')
-                self.log(f"From: {sender}\t {packet_text}\t ({rssi} dB)")
-                packet_parts = packet_text.split(",")
-                packet_parts.append(rssi)
+            try:
+                packet = radio.receive(with_ack=True, with_header=True, keep_listening=True, timeout=1.0)
+                if packet is not None:
+                    rssi = radio.last_rssi
+                    sender = int(packet[1])
+                    packet_text = packet[4:].replace(b'\x00', b'').decode('ascii')
+                    self.log(f"From: {sender}\t {packet_text}\t ({rssi} dB)")
+                    packet_parts = packet_text.split(",")
+                    packet_parts.append(rssi)
 
-                sensor_ids = self.DEVICE_SENSORS[sender]
-                for i, content in enumerate(sensor_ids):
-                    sensor_id, increment = content
-                    if increment:
-                        value = self.safe_float(self.get_state(sensor_id)) + float(packet_parts[i])
-                    else:
-                        value = float(packet_parts[i])
+                    sensor_ids = self.DEVICE_SENSORS[sender]
+                    for i, content in enumerate(sensor_ids):
+                        sensor_id, increment = content
+                        if increment:
+                            value = self.safe_float(self.get_state(sensor_id)) + float(packet_parts[i])
+                        else:
+                            value = self.safe_float((packet_parts[i]))
 
-                    self.set_state(sensor_id, state=value)
+                        self.set_state(sensor_id, state=value)
+            except Exception:
+                self.log(f"Error: {sys.exc_info()}")
 
         self.log("Stopping worker")
         radio.sleep()
