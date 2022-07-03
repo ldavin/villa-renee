@@ -9,6 +9,8 @@
 
 #define RadioGatewayNodeId 1
 #define RadioNodeId 2
+#define RadioMinPower -2
+#define RadioMaxPower 10
 
 #ifdef BoardIsMoteino
 
@@ -35,6 +37,8 @@ RH_RF69 driver(8, 7);
 RHReliableDatagram radio(driver, RadioNodeId);
 Parser parser;
 long sendErrorsCount = 0;
+long sendErrorsCountAtCurrentRadioPower = 0;
+int radioPower = RadioMinPower;
 
 void blinkFor(int durationMillis);
 
@@ -55,13 +59,11 @@ void setup() {
 
     radio.init();
     driver.setFrequency(868.0);
-    driver.setTxPower(-2, true);
+    driver.setTxPower(radioPower, true);
     driver.setEncryptionKey(encryptionKey);
     driver.sleep();
 
     disableFlashChip();
-
-    delay(1000);
 
     for (int i = 0; i < 10; ++i) {
         blinkFor(20);
@@ -133,6 +135,18 @@ void sendData(unsigned long whReading, unsigned long apparentPower) {
         sendErrorsCount++;
         for (int i = 0; i < 3; ++i) {
             blinkFor(20);
+        }
+
+        sendErrorsCountAtCurrentRadioPower++;
+        if (sendErrorsCountAtCurrentRadioPower >= 5) {
+            sendErrorsCountAtCurrentRadioPower = 0;
+            if (radioPower < RadioMaxPower) {
+                radioPower++;
+                driver.setTxPower(radioPower, true);
+                for (int i = 0; i < 3; ++i) {
+                    blinkFor(20);
+                }
+            }
         }
     }
     driver.sleep();
