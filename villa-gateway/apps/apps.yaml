@@ -1,0 +1,7 @@
+hello_world:
+  module: hello
+  class: HelloWorld
+villa_gateway:
+  module: villa
+  class: VillaGateway
+  radio_encryption_key: !secret radio_encryption_key

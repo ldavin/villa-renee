@@ -1,0 +1,19 @@
+logs:
+  main_log:
+    filename: /home/villa/appdaemon/logs/appdaemon.log
+  access_log:
+    filename: /home/villa/appdaemon/logs/access.log
+  error_log:
+    filename: /home/villa/appdaemon/logs/error.log
+  diag_log:
+    filename: /home/villa/appdaemon/logs/diag.log
+appdaemon:
+  time_zone: CET
+  latitude: 50.63
+  longitude: 3.07
+  elevation: 0
+  plugins:
+    HASS:
+      type: hass
+      ha_url: http://homeassistant.local:8123
+      token: !secret token
