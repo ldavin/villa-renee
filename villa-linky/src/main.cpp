@@ -124,6 +124,7 @@ void sendData(unsigned long whReading, unsigned long apparentPower) {
     dataString.concat(apparentPower);
     dataString.concat(",");
     dataString.concat(sendErrorsCount);
+    dataString.concat(".");
 
     char data[dataString.length()];
     dataString.toCharArray(data, sizeof(data));
