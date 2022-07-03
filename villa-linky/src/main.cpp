@@ -34,7 +34,6 @@ RH_RF69 driver(8, 7);
 
 RHReliableDatagram radio(driver, RadioNodeId);
 Parser parser;
-long lowChargeDelaysCount = 0;
 long sendErrorsCount = 0;
 
 void blinkFor(int durationMillis);
@@ -71,7 +70,6 @@ void setup() {
 
 void loop() {
     if (!superCapacitorIsChargedEnough()) {
-        lowChargeDelaysCount++;
         powerDown();
         blinkFor(1000);
         flushSerial();
@@ -123,15 +121,12 @@ void sendData(unsigned long whReading, unsigned long apparentPower) {
     dataString.concat(",");
     dataString.concat(apparentPower);
     dataString.concat(",");
-    dataString.concat(lowChargeDelaysCount);
-    dataString.concat(",");
     dataString.concat(sendErrorsCount);
 
     char data[dataString.length()];
     dataString.toCharArray(data, sizeof(data));
 
     if (radio.sendtoWait((uint8_t *) data, sizeof(data), RadioGatewayNodeId)) {
-        lowChargeDelaysCount = 0;
         sendErrorsCount = 0;
         blinkFor(50);
     } else {
