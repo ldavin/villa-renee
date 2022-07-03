@@ -87,16 +87,13 @@ class VillaGateway(hass.Hass):
         'sensor.villalinky_wh_reading': {
             'friendly_name': "Compteur d'électricité",
             'device_class': 'energy',
-            'unit_of_measurement': 'Wh'
+            'unit_of_measurement': 'Wh',
+            'state_class': 'total_increasing'
         },
         'sensor.villalinky_apparent_power': {
             'friendly_name': "Puissance apparente",
             'device_class': 'apparent_power',
-            'unit_of_measurement': 'VA'
-        },
-        'sensor.villalinky_low_charge_delays': {
-            'friendly_name': "Temporisations pour charge faible du VillaLinky",
-            'icon': 'mdi:battery-charging-low',
+            'unit_of_measurement': 'VA',
             'state_class': 'measurement'
         },
         'sensor.villalinky_send_errors': {
@@ -107,7 +104,8 @@ class VillaGateway(hass.Hass):
         'sensor.villalinky_signal_strength': {
             'friendly_name': "Force du signal VillaLinky",
             'device_class': 'signal_strength',
-            'unit_of_measurement': 'dB'
+            'unit_of_measurement': 'dB',
+            'state_class': 'measurement'
         }
     }
 
@@ -115,7 +113,6 @@ class VillaGateway(hass.Hass):
         2: [
             ('sensor.villalinky_wh_reading', False),
             ('sensor.villalinky_apparent_power', False),
-            ('sensor.villalinky_low_charge_delays', False),
             ('sensor.villalinky_send_errors', True),
             ('sensor.villalinky_signal_strength', False)
         ]
