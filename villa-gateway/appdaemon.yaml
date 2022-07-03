@@ -1,12 +1,12 @@
 logs:
   main_log:
-    filename: /home/villa/appdaemon/logs/appdaemon.log
+    filename: /home/villa/villa-renee/villa-gateway/logs/appdaemon.log
   access_log:
-    filename: /home/villa/appdaemon/logs/access.log
+    filename: /home/villa/villa-renee/villa-gateway/logs/access.log
   error_log:
-    filename: /home/villa/appdaemon/logs/error.log
+    filename: /home/villa/villa-renee/villa-gateway/logs/error.log
   diag_log:
-    filename: /home/villa/appdaemon/logs/diag.log
+    filename: /home/villa/villa-renee/villa-gateway/logs/diag.log
 appdaemon:
   time_zone: CET
   latitude: 50.63
