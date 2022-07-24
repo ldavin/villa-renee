@@ -114,7 +114,7 @@ bool superCapacitorIsChargedEnough() {
     int read = (read1 + read2 + read3) / 3;
     // Input of a voltage divider bridge on a 3.3V board
     float voltage = read * 2 * 3.3f / 1023;
-    return voltage >= 3.7;
+    return voltage >= 3.6;
 }
 
 void sendData(unsigned long whReading, unsigned long apparentPower) {
