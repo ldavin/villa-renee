@@ -124,7 +124,7 @@ class VillaGateway(hass.Hass):
             ('sensor.villalinky_wh_reading', False),
             ('sensor.villalinky_apparent_power', False),
             ('sensor.villalinky_send_errors', True),
-            ('sensor.villalinky_signal_strength', False),
-            ('sensor.villalinky_transmit_power', False)
+            ('sensor.villalinky_transmit_power', False),
+            ('sensor.villalinky_signal_strength', False)
         ]
     }
