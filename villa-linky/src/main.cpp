@@ -138,6 +138,7 @@ void sendData(unsigned long whReading, unsigned long apparentPower) {
 
         sendSuccessCountAtCurrentRadioPower++;
         if (sendSuccessCountAtCurrentRadioPower >= 50) {
+            sendSuccessCountAtCurrentRadioPower = 0;
             sendErrorsCountAtCurrentRadioPower = 0;
             if (radioPower > RadioMinPower) {
                 radioPower--;
@@ -154,6 +155,7 @@ void sendData(unsigned long whReading, unsigned long apparentPower) {
         }
 
         sendErrorsCountAtCurrentRadioPower++;
+        sendSuccessCountAtCurrentRadioPower = 0;
         if (sendErrorsCountAtCurrentRadioPower >= 5) {
             sendErrorsCountAtCurrentRadioPower = 0;
             if (radioPower < RadioMaxPower) {
