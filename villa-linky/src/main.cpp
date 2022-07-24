@@ -38,6 +38,7 @@ RHReliableDatagram radio(driver, RadioNodeId);
 Parser parser;
 long sendErrorsCount = 0;
 long sendErrorsCountAtCurrentRadioPower = 0;
+long sendSuccessCountAtCurrentRadioPower = 0;
 int radioPower = RadioMinPower;
 
 void blinkFor(int durationMillis);
@@ -124,6 +125,8 @@ void sendData(unsigned long whReading, unsigned long apparentPower) {
     dataString.concat(apparentPower);
     dataString.concat(",");
     dataString.concat(sendErrorsCount);
+    dataString.concat(",");
+    dataString.concat(radioPower);
     dataString.concat(".");
 
     char data[dataString.length()];
@@ -132,6 +135,18 @@ void sendData(unsigned long whReading, unsigned long apparentPower) {
     if (radio.sendtoWait((uint8_t *) data, sizeof(data), RadioGatewayNodeId)) {
         sendErrorsCount = 0;
         blinkFor(50);
+
+        sendSuccessCountAtCurrentRadioPower++;
+        if (sendSuccessCountAtCurrentRadioPower >= 50) {
+            sendErrorsCountAtCurrentRadioPower = 0;
+            if (radioPower > RadioMinPower) {
+                radioPower--;
+                driver.setTxPower(radioPower, true);
+                for (int i = 0; i < 3; ++i) {
+                    blinkFor(20);
+                }
+            }
+        }
     } else {
         sendErrorsCount++;
         for (int i = 0; i < 3; ++i) {
