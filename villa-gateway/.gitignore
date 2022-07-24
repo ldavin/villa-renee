@@ -1,2 +1,4 @@
 *.log
 secrets.yaml
+logs/
+apps/__pycache__/
