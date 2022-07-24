@@ -57,12 +57,13 @@ class VillaGateway(hass.Hass):
                     sensor_ids = self.DEVICE_SENSORS[sender]
                     for i, content in enumerate(sensor_ids):
                         sensor_id, increment = content
+                        attributes = self.SENSOR_ATTRIBUTES[sensor_id]
                         if increment:
                             value = self.safe_float(self.get_state(sensor_id)) + float(packet_parts[i])
                         else:
                             value = self.safe_float((packet_parts[i]))
 
-                        self.set_state(sensor_id, state=value)
+                        self.set_state(sensor_id, state=value, attributes=attributes)
             except Exception:
                 self.log(f"Error: {sys.exc_info()}")
 
