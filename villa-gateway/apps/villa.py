@@ -111,6 +111,11 @@ class VillaGateway(hass.Hass):
             'device_class': 'signal_strength',
             'unit_of_measurement': 'dB',
             'state_class': 'measurement'
+        },
+        'sensor.villalinky_transmit_power': {
+            'friendly_name': "Puissance de transmission du VillaLinky",
+            'icon': 'mdi:antenna',
+            'state_class': 'measurement'
         }
     }
 
@@ -119,6 +124,7 @@ class VillaGateway(hass.Hass):
             ('sensor.villalinky_wh_reading', False),
             ('sensor.villalinky_apparent_power', False),
             ('sensor.villalinky_send_errors', True),
-            ('sensor.villalinky_signal_strength', False)
+            ('sensor.villalinky_signal_strength', False),
+            ('sensor.villalinky_transmit_power', False)
         ]
     }
