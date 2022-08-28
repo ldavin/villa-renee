@@ -55,6 +55,8 @@ void setup() {
 
     disableFlashChip();
 
+    int interruptNum = digitalPinToInterrupt(InterruptPin);
+    attachInterrupt(interruptNum, readPulse, RISING);
 
     for (int i = 0; i < 10; ++i) {
         blinkFor(20);
@@ -62,11 +64,7 @@ void setup() {
 }
 
 void loop() {
-    int interruptNum = digitalPinToInterrupt(InterruptPin);
-    attachInterrupt(interruptNum, readPulse, RISING);
     LowPower.powerDown(SLEEP_FOREVER, ADC_OFF, BOD_OFF);
-
-    detachInterrupt(interruptNum);
 
     if (pulseReceived > 0) {
         sendData();
@@ -78,9 +76,11 @@ void readPulse() {
 }
 
 void sendData() {
+    long pulseSent = pulseReceived;
+
     String dataString;
     dataString.reserve(10);
-    dataString.concat(pulseReceived);
+    dataString.concat(pulseSent);
     dataString.concat(",");
     dataString.concat(sendErrorsCount);
     dataString.concat(",");
@@ -91,6 +91,7 @@ void sendData() {
     dataString.toCharArray(data, sizeof(data));
 
     if (radio.sendtoWait((uint8_t *) data, sizeof(data), RadioGatewayNodeId)) {
+        pulseReceived -= pulseSent;
         sendErrorsCount = 0;
         blinkFor(50);
 
