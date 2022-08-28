@@ -76,11 +76,14 @@ void readPulse() {
 }
 
 void sendData() {
-    long pulseSent = pulseReceived;
+    noInterrupts();
+    long pulseReceivedCopy = pulseReceived;
+    pulseReceived = 0;
+    interrupts();
 
     String dataString;
     dataString.reserve(10);
-    dataString.concat(pulseSent);
+    dataString.concat(pulseReceivedCopy);
     dataString.concat(",");
     dataString.concat(sendErrorsCount);
     dataString.concat(",");
@@ -91,7 +94,6 @@ void sendData() {
     dataString.toCharArray(data, sizeof(data));
 
     if (radio.sendtoWait((uint8_t *) data, sizeof(data), RadioGatewayNodeId)) {
-        pulseReceived -= pulseSent;
         sendErrorsCount = 0;
         blinkFor(50);
 
@@ -108,6 +110,9 @@ void sendData() {
             }
         }
     } else {
+        noInterrupts();
+        pulseReceived += pulseReceivedCopy;
+        interrupts();
         sendErrorsCount++;
         for (int i = 0; i < 3; ++i) {
             blinkFor(20);
