@@ -42,6 +42,8 @@ void disableFlashChip();
 
 void sendData();
 
+float readBattery();
+
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     pinMode(InterruptPin, INPUT_PULLUP);
@@ -81,9 +83,13 @@ void sendData() {
     pulseReceived = 0;
     interrupts();
 
+    float batteryVoltage = readBattery();
+
     String dataString;
-    dataString.reserve(10);
+    dataString.reserve(12);
     dataString.concat(pulseReceivedCopy);
+    dataString.concat(",");
+    dataString.concat(String(batteryVoltage, 2));
     dataString.concat(",");
     dataString.concat(sendErrorsCount);
     dataString.concat(",");
@@ -132,6 +138,16 @@ void sendData() {
         }
     }
     driver.sleep();
+}
+
+float readBattery() {
+#ifdef BoardIsMoteino
+    return -1;
+#endif
+#ifdef BoardIsFeather
+    int read = analogRead(A9);
+    return read * 2 * 3.3f / 1024; // Voltage divider bridge on a 3.3V board
+#endif
 }
 
 void disableFlashChip() {
